@@ -1,4 +1,4 @@
-crack_forecasting
+Forecasting Topological Crack Propagation 
 ==============================
 
 Implementing physics-informed NNs
