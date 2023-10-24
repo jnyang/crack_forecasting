@@ -59,6 +59,7 @@ pure-eval @ file:///home/conda/feedstock_root/build_artifacts/pure_eval_16428759
 Pygments @ file:///home/conda/feedstock_root/build_artifacts/pygments_1691408637400/work
 pyparsing @ file:///home/conda/feedstock_root/build_artifacts/pyparsing_1690737849915/work
 python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1626286286081/work
+python-dotenv==1.0.0
 python-slugify==8.0.1
 pytorch-msssim==1.0.0
 pytz==2023.3.post1
