@@ -31,7 +31,7 @@ len_predict = 1
 
 # training parameters
 epoch_nums = 40
-learning_rate = 0.002
+learning_rate=0.002
 batch_size = 4
 params = {'batch_size': batch_size, 'shuffle': False, 'drop_last':False, 'num_workers': 2}
 
@@ -143,7 +143,6 @@ def createModelAndTrain(loss_fn, LOAD_INITIAL=False):
     # calculate step size for saving prediction plots
     step_size = epoch_nums // 10
 
-    loss_fn = loss_fn
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     model.to(device)
     loss_fn.to(device)
@@ -205,18 +204,15 @@ def createModelAndTrain(loss_fn, LOAD_INITIAL=False):
     
 
 def main():
-    loss_dict = {'mse': nn.MSELoss(), 'ssim': SSIMLoss(), 'phasefield': PhaseFieldLoss()}
+    loss_dict = {'mse': nn.MSELoss, 'ssim': SSIMLoss, 'phasefield': PhaseFieldLoss}
     
     if len(sys.argv) > 1:
         loss_arg = sys.argv[1]
-        loss_fn = loss_dict[loss_arg]
+        loss_fn = loss_dict[loss_arg]()
         print(f"Training ConvLSTM with loss {loss_arg}!")
 
     try:
-        epoch_nums = 100
-        learning_rate = 0.002
-        set_model_name(f'convlstm_{loss_arg}_epoch{epoch_nums}_lr{learning_rate}')
-        
+        set_model_name(f'convlstm_{loss_arg}_epoch{epoch_nums}_lr{learning_rate}')        
         start_time = time.time()
         createModelAndTrain(loss_fn=loss_fn)
         end_time = time.time()
