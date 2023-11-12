@@ -8,25 +8,35 @@ import os
 
 
 class ImageFolder(Dataset):
-    def __init__(self, root, transform=None):
+    def __init__(self, root, transform=None, resize=None):
         self.imgs = []
         for root, dirs, files in os.walk(root):
             for file in files:
                 if file.endswith(".png"):
                     self.imgs.append(os.path.join(root, file))
         self.transform = transform
+        self.grayscale_transform = transforms.Grayscale(num_output_channels=1)
+        self.resize = resize
 
     def __getitem__(self, index):
         img_path = self.imgs[index]
         img = Image.open(img_path)
         # img = Image.open(img_path).convert('RGB')
+        if self.resize:
+            img = self.__resize__(img, self.resize)
         if self.transform is not None:
             img = self.transform(img)
+            img = self.grayscale_transform(img)
+            
         return img
 
     def __len__(self):
         return len(self.imgs)
     
+    def __resize__(self, img, size):
+        resized_img = img.resize(size)
+        return resized_img
+        
     # sourced from https://github.com/wherobots/GeoTorchAI/blob/main/geotorchai/datasets/grid/processed.py
     def set_sequential_representation(self, history_length, predict_length):
         '''
