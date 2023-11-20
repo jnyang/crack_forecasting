@@ -29,6 +29,22 @@ class ImageFolder(Dataset):
             img = self.grayscale_transform(img)
             
         return img
+    
+    def __getitemseq__(self, index):
+        img_path = self.imgs[index]
+        
+        folder = os.path.dirname(img_path)
+        folder_name = os.path.basename(folder)
+        file_name = os.path.basename(img_path)
+        
+        # if folder_name starts with a number, then it is a sequence
+        if folder_name[0].isdigit():
+            return folder_name
+        else:
+            # remove .png from file_name
+            file_name = file_name[:-4]
+            return file_name
+        
 
     def __len__(self):
         return len(self.imgs)
